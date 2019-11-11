@@ -41,6 +41,7 @@ export default {
 @media (max-width: 480px) {
   .form__field {
     width: 310px;
+    padding: 12px 18px;
   }
 }
 </style>

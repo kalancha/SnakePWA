@@ -41,21 +41,17 @@ export default {
   },
   methods: {
     setCanvas() {
-      let canvas = this.$refs.game;
-      let bordH = this.$refs.bord.clientHeight;
-      let bordW = this.$refs.bord.clientWidth;
-      this.context = canvas.getContext("2d");
+      if (this.$refs.game != undefined) {
+        let canvas = this.$refs.game;
+        this.context = canvas.getContext("2d");
 
-      this.canwid = Math.floor(bordW / 32) * 32;
-      this.canhei = Math.floor(bordH / 32) * 32;
+        canvas.width = this.canwid;
+        canvas.height = this.canhei;
 
-      canvas.width = this.canwid;
-      canvas.height = this.canhei;
-
-      this.context.fillStyle = this.snake; // Цвет заливки
-      this.korBox.push([this.posX, this.posY]);
-      this.createFood();
-      this.animate();
+        this.context.fillStyle = this.snake; // Цвет заливки
+        this.korBox = [[this.posX, this.posY]];
+        this.createFood();
+      }
     },
     animate() {
       let ctx = this.context;
@@ -87,10 +83,12 @@ export default {
           ) {
             x = this.korBox.length;
             let newmas = JSON.parse(localStorage.getItem("score"));
+
             if (!newmas) newmas = [];
             newmas.push(this.score.toString());
             localStorage.setItem("score", JSON.stringify(newmas));
             let newuser = JSON.parse(localStorage.getItem("users"));
+
             if (!newuser) newuser = [];
             newuser.push(this.user.nickname);
             localStorage.setItem("users", JSON.stringify(newuser));
@@ -193,7 +191,16 @@ export default {
         }
       }
     },
-
+    resize() {
+      let topC;
+      window.innerWidth < 600 ? (topC = 30) : (topC = 60);
+      this.canwid = Math.floor((window.innerWidth - topC) / 32) * 32;
+      this.canhei = Math.floor((window.innerHeight - topC) / 32) * 32;
+      this.setCanvas();
+    },
+    destroyed() {
+      window.removeEventListener("resize", this.resize);
+    },
     ...mapMutations(["updateScore", "clearScore"]),
     newScore() {
       this.updateScore();
@@ -204,8 +211,10 @@ export default {
   },
   mounted: function() {
     this.NewScore();
-    this.setCanvas();
     document.addEventListener("keydown", this.onKeyDown);
+    window.addEventListener("resize", this.resize);
+    this.resize();
+    this.animate();
   },
   computed: {
     snakeColor() {

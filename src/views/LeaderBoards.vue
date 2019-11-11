@@ -1,6 +1,9 @@
 <template>
   <div class="leaderboards">
-    <div class="lead">LeaderBoards</div>
+    <div class="lead">
+      <span>LeaderBoard</span>
+      <button class="btn" @click="clear">Clear</button>
+    </div>
     <div class="score">Score</div>
     <div class="nick">Nickname</div>
 
@@ -27,6 +30,12 @@ export default {
         localStorage.removeItem("users");
       }
     }
+  },
+  methods: {
+      clear(){
+      localStorage.clear();
+      document.location.reload(true);
+    }
   }
 };
 </script>
@@ -39,7 +48,6 @@ export default {
   grid-auto-rows: 100px;
   height: 100%;
   overflow-y: auto;
-
 }
 
 .leaderboards > div {
@@ -51,8 +59,20 @@ export default {
   font-family: "Permanent Marker", cursive;
 }
 
-.lead {
+.leaderboards > div:nth-child(1) {
   grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  grid-template-rows: 100px;
+}
+.lead span {
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+}
+
+.lead .btn {
+  grid-column: 3;
 }
 
 .nick {
@@ -87,6 +107,19 @@ export default {
 }
 
 .leaderboards > div:nth-child(4n) {
+  background-color: #ffcc5c;
+}
+
+.btn {
+  margin: 5px;
+  float: right;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
   background-color: #ffcc5c;
 }
 </style>

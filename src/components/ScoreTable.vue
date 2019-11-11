@@ -8,8 +8,18 @@
 import { mapGetters } from "vuex";
 export default {
     name: "ScoreTable",
+    methods : {
+        checkNick(){
+             if(this.nickname==""){
+                 this.$router.replace("/")
+             }
+        }
+    },
     computed: {
     ...mapGetters(["score","nickname"])
+    },
+    mounted : function(){
+        this.checkNick()
     }
 }
 </script>

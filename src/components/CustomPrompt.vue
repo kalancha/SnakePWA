@@ -32,8 +32,7 @@ export default {
       if(this.install==null){
         alert("Sorry, your browser does not support this function");
       }else{
-        
-        this.install.prompt();
+         this.install.prompt();
       }
     }
   },

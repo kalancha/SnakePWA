@@ -11,7 +11,7 @@
       <FieldColor title="Field color"></FieldColor>
     </div>
     <div class="play">
-      <Nickname v-model="nick" :placeholder="place"></Nickname>
+      <Nickname ref="inp" v-model="nick" :placeholder="place"></Nickname>
       <PlayButton v-on:clicked="checkNick"></PlayButton>
     </div>
   </div>
@@ -52,8 +52,8 @@ export default {
         this.updateNickname({
           nickname: this.nick
         });
+
         this.$router.push("/game");
-      } else {
         this.place = "Need letters";
       }
     }
@@ -82,7 +82,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 @media (max-height:965px) and (min-width: 1000px) {

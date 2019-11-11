@@ -17,7 +17,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .playField {
-  height: 99%;
+  height: 100%;
   width: 100%;
   display: grid;
   grid-template-columns: 5px 1fr 5px;

@@ -47,7 +47,7 @@ export default {
   methods: {
     setCanvas() {
       let canvas = this.$refs.logo;
-      let flex = this.$refs.cont.clientWidth;
+      let flex = this.$refs.cont.clientWidth; //FIXME: S + food
 
       if (flex > 1000) {
         this.cansize = 240;
@@ -55,11 +55,10 @@ export default {
         this.size = this.cansize / 12;
       } else if (flex > 480) {
         this.cansize = 120;
-        Math.floor(this.size = this.cansize / 10);
+        this.size = this.cansize / 10;
       } else {
         this.cansize = 90;
-
-         Math.floor(this.size = this.cansize / 9);
+        this.size = this.cansize / 9;
       }
 
       canvas.width = canvas.height = this.cansize;
@@ -83,14 +82,14 @@ export default {
         0
       ];
       let x = [0, this.pointOne, this.pointOne, 0, 0, this.pointOne];
-      if (this.b >= this.size) {
+      if (this.b >= 20) {
         this.a++;
         this.b = 0;
       }
       let a = this.a;
       let b = this.b;
-      let shagY = (y[a + 1] - y[a]) / this.size;
-      let shagX = (x[a + 1] - x[a]) / this.size;
+      let shagY = (y[a + 1] - y[a]) / 20;
+      let shagX = (x[a + 1] - x[a]) / 20;
 
       this.context.fillStyle = this.colorSnake;
       this.context.fillRect(
@@ -100,10 +99,11 @@ export default {
         this.size
       );
 
-      this.b += this.size / 12;
-      if (this.a < 5 || this.b < this.size) {
+      this.b += 1.7;
+      if (a < 4 || b * shagX < this.pointOne - 2 * this.size) {
         requestAnimationFrame(this.animate);
       } else {
+        this.context.fillRect(x[a] + shagX * this.b , y[a] + shagY * this.b , this.pointOne - (x[a] + shagX * this.b) , this.size);
         this.nake = true;
       }
     }
@@ -115,7 +115,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .logo {
-  margin-top: 20px;
+  margin-top: 15px;
   display: flex;
   height: 240px;
   width: 100%;
