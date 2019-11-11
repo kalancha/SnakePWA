@@ -7,9 +7,9 @@
     <div class="score">Score</div>
     <div class="nick">Nickname</div>
 
-    <div class="item" v-for="item in score[0]" v-bind:key="item.id">{{item}}</div>
+    <div class="item" v-for="(item) in both" v-bind:key="item.id">{{item.score}}</div>
 
-    <div class="user" v-for="(user,n) in users[0]" :key="n">{{user}}</div>
+    <div class="user" v-for="(user,n) in both" :key="n">{{user.user}}</div>
   </div>
 </template>
 <script>
@@ -17,7 +17,8 @@ export default {
   data() {
     return {
       users: [],
-      score: []
+      score: [],
+      both: []
     };
   },
   mounted() {
@@ -30,11 +31,22 @@ export default {
         localStorage.removeItem("users");
       }
     }
+    this.sort();
   },
   methods: {
-      clear(){
+    clear() {
       localStorage.clear();
       document.location.reload(true);
+    },
+    sort() {
+      for (let a = 0; a < this.users[0].length; a++) {
+        this.both.push({
+          user: this.users[0][a],
+          score: this.score[0][a]
+        });
+      }
+     let s = this.both.sort((a, b) => b.score - a.score);
+     this.bots = s;
     }
   }
 };
